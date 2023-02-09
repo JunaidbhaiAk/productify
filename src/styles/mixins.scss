@@ -1,0 +1,9 @@
+@mixin centerDiv {
+    display: flex;
+    flex:1;
+    height:100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #f3f2f2;
+}

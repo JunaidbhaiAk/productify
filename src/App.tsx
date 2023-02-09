@@ -1,26 +1,34 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-
-function App() {
+import "./styles.css";
+import { Toaster } from 'react-hot-toast';
+import { AuthContext } from "./context/auth-context";
+import { useState } from "react";
+import { User } from "./utils/type";
+import Login from "./pages/Login";
+import { Routes, Route } from "react-router-dom";
+import Dashboard from "./pages/Dashboard";
+import Layout from "./pages/Layout";
+import AuthRoutes from "./components/AuthRoutes";
+import AddProduct from "./pages/AddProduct";
+import Verify from "./pages/Verify";
+import AddMerchant from "./pages/AddMerchant";
+export default function App() {
+  const [user, setUser] = useState<User>();
+  const [products,setProducts] = useState<any>([]);
+  const [postProductData,setpostProductData] = useState<any>({});
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AuthContext.Provider value={{ user, updateAuthUser: setUser,products,updateProducts: setProducts,postProductData,updatepostProductData:setpostProductData }}>
+      <div className="App">
+        <Routes>
+          <Route element={<Login />} path="/login" />
+          <Route element={<AuthRoutes children={<Layout />} />}>
+            <Route element={<Dashboard />} path="/dashboard" />
+            <Route element={<AddProduct />} path="/addproduct" />
+            <Route element={<AddMerchant />} path="/addmerchant" />
+          </Route>
+          <Route element={<Verify />} path='/verify' />
+        </Routes>
+      </div>
+      <Toaster position="top-right"/>
+    </AuthContext.Provider>
   );
 }
-
-export default App;

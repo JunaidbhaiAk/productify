@@ -1,0 +1,72 @@
+.ticket {
+  overflow: hidden;
+  margin-top: -15px;
+  &__body {
+    width: 350px;
+    padding: 5px 20px 20px 20px;
+    transform: translateY(-580px);
+    animation-duration: 2.5s;
+    animation-delay: 500ms;
+    animation-name: print;
+    animation-fill-mode: forwards;
+    background-color: ghostwhite;
+  }
+}
+
+.upper {
+  width: 100%;
+  background-color: #fff;
+  border-bottom: 4px solid #465268;
+  &__barcode {
+    width: 100%;
+    margin: auto;
+  }
+  &__head {
+    width: 80px;
+  }
+  &__info {
+    padding: 4px 8px;
+  }
+}
+
+@keyframes print {
+  0% {
+    transform: translateY(-500px);
+  }
+  35% {
+    transform: translateY(-295px);
+  }
+  70% {
+    transform: translateY(-140px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 12px;
+  &__title {
+    font-size: 0.8rem;
+    color: rgba(28, 28, 28, 0.7);
+  }
+
+  &__ans {
+    font-size: 1rem;
+    font-weight: 400;
+  }
+}
+
+.row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+img {
+  width: 100%;
+}

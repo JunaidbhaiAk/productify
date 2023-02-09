@@ -1,0 +1,28 @@
+.form {
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 12px;
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  background-color: #fff;
+  &__title{
+    color: #465268;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+  }
+
+  &__button {
+    padding: 7px 12px;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    background-color: #465268;
+    color: #fff;
+    transition: 0.5s all;
+    &:hover {
+      box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px,
+        rgba(0, 0, 0, 0.23) 0px 3px 6px;
+    }
+  }
+}
