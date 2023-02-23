@@ -16,8 +16,8 @@ export const addProductAndGet = async(input:any) => {
     }
 }
 
-export const getAllPro = async() => {
-    return await contract.getAllProducts()
+export const getAllProducts = async() => {
+    return await contract.getAllProducts();
 }
 
 export const getProductById = async(_id:any) => {

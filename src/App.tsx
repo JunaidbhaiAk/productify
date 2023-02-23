@@ -11,6 +11,7 @@ import AuthRoutes from "./components/AuthRoutes";
 import AddProduct from "./pages/AddProduct";
 import Verify from "./pages/Verify";
 import AddMerchant from "./pages/AddMerchant";
+import ViewProducts from "./pages/ViewProducts";
 export default function App() {
   const [user, setUser] = useState<User>();
   const [products,setProducts] = useState<any>([]);
@@ -24,6 +25,7 @@ export default function App() {
             <Route element={<Dashboard />} path="/dashboard" />
             <Route element={<AddProduct />} path="/addproduct" />
             <Route element={<AddMerchant />} path="/addmerchant" />
+            <Route element={<ViewProducts />} path='/viewproducts' />
           </Route>
           <Route element={<Verify />} path='/verify' />
         </Routes>

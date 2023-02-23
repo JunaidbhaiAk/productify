@@ -4,8 +4,8 @@ export const sidebarItems:sidebarItemsType[] = [
     {name:'Dashboard',path:'/dashboard'},
     {name:'Add Product',path:'/addproduct'},
     {name:'Add Merchant',path:'/addmerchant'},
-    {name:'View Products',path:'/viewp'},
-    {name:'View Merchents',path:'/viewm'}
+    {name:'View Products',path:'/viewproducts'},
+    {name:'View Merchents',path:'/viewmerchants'}
 ]
 
 

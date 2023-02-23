@@ -34,7 +34,11 @@ export const convertDate = (date:any) => {
 };
 
 
-export const handleDownloadImage = async (element:any) => {
+export const sanatize = (data:any) => {
+  return typeof data === 'string' ? data : convertDate(data);
+}
+
+export const handleDownloadImage = async (element:any,name:string) => {
   const canvas = await html2canvas(element,{useCORS: true});
 
   const data = canvas.toDataURL('image/jpg');
@@ -42,7 +46,7 @@ export const handleDownloadImage = async (element:any) => {
 
   if (typeof link.download === 'string') {
     link.href = data;
-    link.download = 'image.jpg';
+    link.download = `${name}.jpg`;
 
     document.body.appendChild(link);
     link.click();

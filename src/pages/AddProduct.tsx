@@ -33,7 +33,7 @@ const AddProduct = () => {
   }
 
   const handlePrint = () => {
-    handleDownloadImage(printRef.current)
+    handleDownloadImage(printRef.current,input.name)
     setShow(false);
     updatepostProductData({});
     setInput({name:"",category:""});
