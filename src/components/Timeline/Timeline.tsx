@@ -1,6 +1,5 @@
 import {useEffect,useState} from 'react'
-import { addressSample } from "../../utils/constants";
-import { convertDate } from '../../utils/helpers';
+import { convertDate, convertTime } from '../../utils/helpers';
 import { getTracks } from '../../utils/web3';
 import "./timeline.scss";
 type Props = {
@@ -8,7 +7,7 @@ type Props = {
   product_id:any;
 }
 const Timeline = ({remind,product_id}:Props) => {
-  const [tracks,setTracks] = useState([])
+  const [tracks,setTracks] = useState<any>([])
   useEffect(() => {
     const getData = async() => {
       const data = await getTracks(product_id);
@@ -18,8 +17,9 @@ const Timeline = ({remind,product_id}:Props) => {
   }, [remind])
   
   return (
-    <div className="timeline">
-      {tracks.map((ele: any, idx: any) => {
+    <>
+    {tracks[0]?.length > 0 ? <div className="timeline">
+      {tracks[0].map((ele: any, idx: any) => {
         return (
           <div className={`timeline__container ${idx % 2 && "right"}`}>
             <div className="point">
@@ -28,7 +28,8 @@ const Timeline = ({remind,product_id}:Props) => {
             <div className="timeline__container--text">
               <span className="text__title">{ele['companyName']}</span>
               <span className="text__sub">{`${ele['city']} - ${ele['pincode']?.toString()} ${ele['state']}`}</span>
-              <span className="text__sub">{convertDate(ele['date'])}</span>
+              <span className="text__sub">{convertDate(tracks[1][idx])}</span>
+              <span className="text__sub">{convertTime(tracks[1][idx])}</span>
               <span className="text__sub">Product Dispatched To Next Seller</span>
             </div>
             <div
@@ -39,7 +40,8 @@ const Timeline = ({remind,product_id}:Props) => {
           </div>
         );
       })}
-    </div>
+    </div> : <h3>No Tracks Found</h3>}
+    </>
   );
 };
 

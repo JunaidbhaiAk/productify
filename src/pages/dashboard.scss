@@ -1,0 +1,22 @@
+.dashview{
+    width: 100%;
+    background-color: #f3f2f2;
+    padding: 120px 24px!important;
+    position: relative;
+}
+
+
+.cards{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+
+
+.last__title{
+    display: block;
+    margin-top: 32px;
+    font-size: 1.2rem;
+    font-weight: 400;
+}

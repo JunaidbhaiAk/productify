@@ -33,6 +33,12 @@ export const convertDate = (date:any) => {
   return dobFormat;
 };
 
+export const convertTime = (date:any) => {
+  const extractDate = new Date(date.toNumber() * 1000)
+  const timeString = extractDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+  return timeString;
+}
+
 
 export const sanatize = (data:any) => {
   return typeof data === 'string' ? data : convertDate(data);

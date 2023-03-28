@@ -26,6 +26,15 @@ export const getProductById = async(_id:any) => {
     console.log(data)
     return data;
 }
+
+export const updateOwner = async(pid:string,name:string,address:string) => {
+    try{
+        const verify = await contract.updateOwner(pid,address,name);
+        return await verify.wait();
+    }catch(error){
+      return error;
+    } 
+}
      
 
 

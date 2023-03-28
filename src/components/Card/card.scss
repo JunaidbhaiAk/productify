@@ -1,0 +1,31 @@
+.card{
+    width: 300px;
+    cursor: pointer;
+    background-color: #fff;
+    list-style: none;
+    padding: 12px 22px;
+    border-radius: 8px;
+    transition: 0.3s ease-in;
+    span{
+        display: block;
+    }
+
+    &__title{
+        font-weight: 400;
+        font-size: 1.1rem;
+    }
+
+    &__ans{
+        // text-align: end;
+        margin-top: 20px;
+        font-weight: bold;
+        font-size: 2rem;
+    }
+
+    &:hover{
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 50px;
+        background-color: #465268b4;
+        color: #fff;
+    }
+
+}

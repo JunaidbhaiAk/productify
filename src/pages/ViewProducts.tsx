@@ -1,4 +1,4 @@
-import { useEffect,useState,useRef } from 'react'
+import { useEffect,useState,useRef,useContext } from 'react'
 import { getAllProducts } from '../utils/web3'
 import './viewproduct.scss'
 import './table.scss'
@@ -7,25 +7,31 @@ import Modal from '../components/Modal/Modal'
 import { convertDate, cutId, getLink, handleDownloadImage } from '../utils/helpers'
 import Info from '../components/Ticket/Info';
 import { RiFileDownloadFill,RiSearch2Line } from 'react-icons/ri';
+import { OwnerContext } from '../context/owner-context';
 
 const ViewProducts = () => {
   const printRef = useRef<HTMLDivElement>(null);
   const [allproducts,setAllProducts] = useState([]);
   const [modalInfo,setModalInfo] = useState<any>(null);
+  const {check,updateshowownerModal,updatecurrOwner} = useContext(OwnerContext);
+  const [show,setShow] = useState(false);
+  
   const fetchData = async () => {
     const data = await getAllProducts();
+    console.log(data[0]);
     setAllProducts(data);
   }
+  
   useEffect(() => {
     fetchData();
-  }, [])
+    updateshowownerModal(false);
+  }, [check])
 
-  const [show,setShow] = useState(false);
   const setInfo = (ele:any) => {
     setModalInfo(ele);
     setShow(!show);
   }
-  const handleChange = (e:any) => {
+  const handleSearchChange = (e:any) => {
     const {value} = e.target;
     if(value.length > 4){
       const filteredData = allproducts.filter((ele:any) => {
@@ -35,12 +41,17 @@ const ViewProducts = () => {
     }
     else fetchData();
   }
+
+  const handleOwner = (owner:string,ownerName:string,pid:string) => {
+    updatecurrOwner({owner,ownerName,pid});
+    updateshowownerModal(true);
+  }
   return (
     <div className="view">
       <div className='searchbar'>
         <div className='searchbar__container'>
           <RiSearch2Line size={15}/>
-          <input type="text" onChange={handleChange} placeholder='Enter Keywords'/>
+          <input type="text" onChange={handleSearchChange} placeholder='Enter Keywords'/>
         </div>
       </div>
       <div className='table_container'>
@@ -52,21 +63,22 @@ const ViewProducts = () => {
               <th>Name</th>
               <th>Date</th>
               <th>Category</th>
-              <th>Added By</th>
-              <th>Dispatched</th>
+              <th>Ticket</th>
+              <th>Action</th>
               </tr>
             </thead>
             <tbody>
                 {allproducts.map((ele:any,idx:number) => {
                   return (
-                  <tr key={ele[0]} onClick={() => setInfo(ele)}>
+                  <tr key={ele[0]}>
                     <td>{idx+1}</td>
                     <td>{ele[0]}</td>
                     <td>{ele[1]}</td>
                     <td>{convertDate(ele[2])}</td>
                     <td>{ele[3]}</td>
-                    <td>Admin</td>
-                    <td>{ele[4] ? 'Dispatched' : 'Not Dispatched'}</td>
+                    <td onClick={() => setInfo(ele)}>View</td>
+                    {/* <td>{ele[4] ? 'Dispatched' : 'Not Dispatched'}</td> */}
+                    <td><button onClick={() => handleOwner(ele['owner'],ele['ownerName'],ele[0])}>Ownership</button></td>
                   </tr>)
                 })}
             </tbody>
