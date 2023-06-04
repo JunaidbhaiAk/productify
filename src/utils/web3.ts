@@ -1,5 +1,4 @@
 import {ethers} from 'ethers'
-import { getContract, contract_add } from './config';
 import c from './abi.json'
 let contract:any;
 export const getHash = async() => {
