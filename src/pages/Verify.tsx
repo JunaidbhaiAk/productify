@@ -44,7 +44,8 @@ const Verify = () => {
   }
 
   const handleModalClick = () => {
-    updatecurrOwner({owner:data[6],ownerName:'test',pid:_id})
+    console.log(data);
+    updatecurrOwner({owner:data[5],ownerName:data[6],pid:_id})
     updateshowownerModal(true);
   }
 

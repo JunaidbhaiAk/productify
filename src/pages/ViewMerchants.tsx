@@ -1,7 +1,20 @@
-import React from 'react'
+import React,{useEffect,useState} from 'react'
 import { RiSearch2Line } from 'react-icons/ri'
+import { useNavigate } from 'react-router-dom'
+import { convertDate } from '../utils/helpers'
+import { getAllMerchants } from '../utils/web3'
 import './viewproduct.scss'
 const ViewMerchants = () => {
+  const [merchants,setMerchants] = useState<any>([])
+  const navigate = useNavigate();
+  useEffect(() => {
+    getAllMerchants().then(data => setMerchants(data))
+  },[])
+
+  const handleClick = (data:Array<any>) => {
+    navigate('/addmerchant',{state:{data}})
+  }
+
   return (
     <div className='view'>
         <div className='searchbar'>
@@ -25,18 +38,21 @@ const ViewMerchants = () => {
                 </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                    <td>1</td>
-                    <td>0x755B45d99ede22bf9D6a52D3C72AB92134B714bD</td>
-                    <td>Jhon Snow</td>
-                    <td>jhon@email.com</td>
-                    <td>Jhonnys Company</td>
-                    <td>Pune</td>
-                    <td>12 Jan 2023</td>  
-                    <td><button>Update</button></td>
-                    </tr>
-                </tbody>
-            </table>
+                    {merchants.map((ele:any,idx:number) => {
+                        return (
+                        <tr key={ele['id']}>
+                          <td>{idx + 1}</td>
+                          <td>{ele['id']}</td>
+                          <td>{ele['name']}</td>
+                          <td>{ele['email']}</td>
+                          <td>{ele['companyName']}</td>
+                          <td>{ele['city']}</td>
+                          <td>{convertDate(ele['joiningDate'])}</td>  
+                          <td><button onClick={() => handleClick(ele)}>Update</button></td>
+                        </tr>)
+                    })}
+              </tbody>
+          </table>
         </div>
     </div>
   )

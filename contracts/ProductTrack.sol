@@ -55,12 +55,39 @@ contract ProductTrack {
     address[] private merchantKeys;
 
     event returnId(bytes32 id);
+
+    function isOwner() public view returns(bool){
+        return msg.sender == owner;
+    }
+
     function hash(string memory _string) public pure returns(bytes32) {
      return keccak256(abi.encodePacked(_string));
     }
 
-    function getDashboardData() public view onlyOwner returns(uint,uint,uint,uint){
-        return (keys.length,merchantKeys.length,tracksCount,ownershipTransferedCount);
+    function getDashboardData() public view onlyOwner returns(uint,uint,uint,uint,customProductReturn[] memory){
+
+        uint len = keys.length;
+        if(len > 3)
+        {
+          customProductReturn[] memory resx = new customProductReturn[](3);
+          uint i = len - 1;
+          uint j = 0;
+          while(j < 3){
+            Product memory currPro = data[keys[i]];
+            resx[j] = (customProductReturn(currPro.id,currPro.name,currPro.date,currPro.category,currPro.isDispatch,currPro.owner,currPro.ownerName));
+            i--;
+            j++;
+         }
+         return (keys.length,merchantKeys.length,tracksCount,ownershipTransferedCount,resx);
+        }else{
+            customProductReturn[] memory res = new customProductReturn[](keys.length);
+            for(uint i = 0; i < keys.length; i++){
+                Product memory currPro = data[keys[i]];
+                res[i] = (customProductReturn(currPro.id,currPro.name,currPro.date,currPro.category,currPro.isDispatch,currPro.owner,currPro.ownerName));
+            }
+            return (keys.length,merchantKeys.length,tracksCount,ownershipTransferedCount,res);
+        }
+        
     }
 
     function addProduct(string memory _name,string memory _category) public onlyOwner returns(bytes32) {
@@ -103,9 +130,9 @@ contract ProductTrack {
         data[_id].dispatchDate = block.timestamp;
     }
 
-    function addMerchants(address id,string memory _name,string memory _email,string memory _companyName,string memory _city,string memory _state,uint _pincode) public onlyOwner {
+    function addMerchants(address id,string memory _name,string memory _email,string memory _companyName,string memory _city,string memory _state,uint _pincode,bool update) public onlyOwner {
         // bytes32 id = hash(_email);
-        merchantKeys.push(id);
+        if(!update) merchantKeys.push(id);
         merchantsData[id] = Merchant(id,_name,_companyName,_email,block.timestamp,_state,_city,_pincode);
     }
 

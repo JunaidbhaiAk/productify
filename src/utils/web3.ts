@@ -1,9 +1,18 @@
 import {ethers} from 'ethers'
 import { getContract, contract_add } from './config';
-
+import c from './abi.json'
 let contract:any;
 export const getHash = async() => {
     contract.hash('hello').then((res:any) => console.log(res));
+}
+
+export const isOwner = async() => {
+    return await contract.isOwner();
+}
+
+export const getDashboardData = async() => {
+    const data = await contract.getDashboardData();
+    return data;
 }
 
 
@@ -39,8 +48,8 @@ export const updateOwner = async(pid:string,name:string,address:string) => {
 
 
 export const addMerchant = async(data:any) => {
-    const {merchant_id,merchant_name,merchant_email,merchant_company,merchant_city,merchant_state,merchant_pincode} = data;
-    const res = await contract.addMerchants(merchant_id,merchant_name,merchant_email,merchant_company,merchant_city,merchant_state,merchant_pincode);
+    const {merchant_id,merchant_name,merchant_email,merchant_company,merchant_city,merchant_state,merchant_pincode,update} = data;
+    const res = await contract.addMerchants(merchant_id,merchant_name,merchant_email,merchant_company,merchant_city,merchant_state,merchant_pincode,update);
     const rec = await res.wait();
     if(rec.status){
         return rec.transactionHash;
@@ -49,6 +58,11 @@ export const addMerchant = async(data:any) => {
 
 export const getMerchant = async(id:any) => {
     const data = await contract.getMerchant(id);
+    return data;
+}
+
+export const getAllMerchants = async() => {
+    const data = await contract.getAllMerchants();
     return data;
 }
 
@@ -73,7 +87,7 @@ export const connectWallet = async () => {
         if(address.length > 0){
             const provider = new ethers.providers.Web3Provider(ethereum);
             const signer = provider.getSigner();
-            contract = new ethers.Contract(contract_add,getContract().abi,signer);
+            contract = new ethers.Contract(c.networks["5777"].address,c.abi,signer);
             return Promise.resolve(address[0]);
         }
         return null;

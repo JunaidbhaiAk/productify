@@ -1,5 +1,7 @@
-import {useState} from 'react'
+import { BigNumber, ethers } from 'ethers'
+import {useState,useEffect} from 'react'
 import toast from 'react-hot-toast'
+import { useLocation } from 'react-router-dom'
 import Form from "../components/Form/Form"
 import Input from "../components/Input/Input"
 import { cutId } from '../utils/helpers'
@@ -7,7 +9,16 @@ import { addMerchant } from '../utils/web3'
 import './addmerchant.scss'
 
 const AddMerchant = () => {
+  const {state} = useLocation();
   const [data,setData] = useState({merchant_id:'',merchant_name:'',merchant_email:'',merchant_company:'',merchant_city:'',merchant_state:'',merchant_pincode:''})
+  useEffect(() => {
+    if(state?.data){
+      const {data} = state;
+      let pincode = ethers.utils.formatUnits(data['pincode'],0)
+      setData({merchant_id:data['id'],merchant_name:data['name'],merchant_email:data['email'],merchant_company:data['companyName'],merchant_city:data['city'],merchant_state:data['state'],merchant_pincode:pincode})
+    }
+  },[])
+  
   const handleChange = (e:any) => {
     const {name,value} = e.target;
     setData((pre) => {
@@ -17,7 +28,9 @@ const AddMerchant = () => {
   const handleSubmit = async(e:any) => {
     e.preventDefault();
     const toastId = toast.loading('Waiting For Confirmation...');
-    const res = await addMerchant(data);
+    let update = false;
+    if(state?.data) update = true;
+    const res = await addMerchant({...data,update});
     toast.success(`Transaction Hash : ${cutId(res,20)} `, {
       id: toastId,
       duration: 8000,

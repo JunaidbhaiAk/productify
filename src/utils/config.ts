@@ -1,6 +1,6 @@
 import contract from './abi.json'
 
-export const contract_add = '0x88ECB3AA867f6C0Da0f4277924C1afe5A6167eE6';
+export const contract_add = '0x1400b72602D25C0b1ecC2426CcE3C61320AE8c58';
 
 export const getContract = () => {
   return contract;
